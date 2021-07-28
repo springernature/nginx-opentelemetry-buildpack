@@ -4,6 +4,48 @@
 
 A Cloud Foundry [buildpack](http://docs.cloudfoundry.org/buildpacks/) for apps requiring NGINX.
 
+### Open Tracing fork
+
+This fork adds the [Nginx Open Tracing plugin](https://github.com/opentracing-contrib/nginx-opentracing) and supporting libraries, for communication with a Jaeger sink.
+
+The libraries are built on an Ubuntu 18.04 VM:
+
+```
+sudo apt install cmake build-essential autoconf libtool libpcre++ libssl-dev zlib1g-dev
+mkdir dist
+
+# OpenTracing lib
+curl -L https://github.com/opentracing/opentracing-cpp/archive/refs/tags/v1.6.0.tar.gz | tar xzf -
+cd $HOME/opentracing-cpp-1.6.0
+mkdir .build
+cd .build
+cmake ..
+make
+sudo make install # also required to build plugin & jaegar client
+cd ../..
+tar czf dist/libopentracing.tar.gz --transform 's?.*/??g' opentracing-cpp-1.6.0/.build/output/libopentracing*
+
+# Jaeger client lib
+curl -L https://github.com/jaegertracing/jaeger-client-cpp/archive/refs/tags/v0.7.0.tar.gz | tar xzf -
+cd jaeger-client-cpp-0.7.0
+mkdir build
+cd build
+cmake ..
+make
+cd ../..
+tar cf dist/libjaegertracing.tar --transform 's?.*/??g' jaeger-client-cpp-0.7.0/build/libjaegertracing.so*
+for FILE in $(find $HOME/.hunter/_Base/Cellar -name 'libyaml-cpp*'); do tar rf dist/libjaegertracing.tar --transform 's?.*/??g' "$FILE"; done
+gzip dist/libjaegertracing.tar
+
+# OpenResty
+curl -L https://github.com/opentracing-contrib/nginx-opentracing/archive/refs/tags/v0.19.0.tar.gz | tar xzf -
+curl -L https://openresty.org/download/openresty-1.19.3.2.tar.gz | tar xzf -
+cd $HOME/openresty-1.19.3.2
+./configure --with-compat --add-dynamic-module=$HOME/nginx-opentracing-0.19.0/opentracing
+tar czf dist/ngx_http_opentracing_module.tar.gz -C openresty-1.19.3.2/build/nginx-1.19.3/objs ngx_http_opentracing_module.so
+
+# Now copy dist/* to dist/ in the buildpack
+```
 
 ### Buildpack User Documentation
 
