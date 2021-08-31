@@ -79,7 +79,7 @@ dependencies:
 - name: ngx_http_opentracing_module
   version: 0.19.0
   uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/ngx_http_opentracing_module.tar.gz
-  sha256: 2efad17d90abf513af25d196ef79128501b5488ddbcf3ef4e17aba7aa77400ea
+  sha256: a1971738ff883f1e46e734fb55463b670c8907c144f0b12c36bea54b4e7ad793
   cf_stacks:
   - cflinuxfs3
 pre_package: scripts/build.sh

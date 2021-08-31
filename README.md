@@ -39,10 +39,12 @@ gzip dist/libjaegertracing.tar
 
 # OpenResty
 curl -L https://github.com/opentracing-contrib/nginx-opentracing/archive/refs/tags/v0.19.0.tar.gz | tar xzf -
-curl -L https://openresty.org/download/openresty-1.19.3.2.tar.gz | tar xzf -
-cd $HOME/openresty-1.19.3.2
+curl -L https://openresty.org/download/openresty-1.19.9.1.tar.gz | tar xzf -
+cd $HOME/openresty-1.19.9.1
 ./configure --with-compat --add-dynamic-module=$HOME/nginx-opentracing-0.19.0/opentracing
-tar czf dist/ngx_http_opentracing_module.tar.gz -C openresty-1.19.3.2/build/nginx-1.19.3/objs ngx_http_opentracing_module.so
+make
+cd ..
+tar czf dist/ngx_http_opentracing_module.tar.gz -C openresty-1.19.9.1/build/nginx-1.19.9/objs ngx_http_opentracing_module.so
 
 # Now copy dist/* to dist/ in the buildpack
 ```
