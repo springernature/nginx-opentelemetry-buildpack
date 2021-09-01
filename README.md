@@ -23,7 +23,7 @@ cmake ..
 make
 sudo make install # also required to build plugin & jaegar client
 cd ../..
-tar czf dist/libopentracing.tar.gz --transform 's?.*/??g' opentracing-cpp-1.6.0/.build/output/libopentracing*
+tar czf dist/libopentracing-1.6.0.tar.gz --transform 's?.*/??g' opentracing-cpp-1.6.0/.build/output/libopentracing*
 
 # Jaeger client lib
 curl -L https://github.com/jaegertracing/jaeger-client-cpp/archive/refs/tags/v0.7.0.tar.gz | tar xzf -
@@ -35,7 +35,7 @@ make
 cd ../..
 tar cf dist/libjaegertracing.tar --transform 's?.*/??g' jaeger-client-cpp-0.7.0/build/libjaegertracing.so*
 for FILE in $(find $HOME/.hunter/_Base/Cellar -name 'libyaml-cpp*'); do tar rf dist/libjaegertracing.tar --transform 's?.*/??g' "$FILE"; done
-gzip dist/libjaegertracing.tar
+gzip dist/libjaegertracing-0.7.0.tar
 
 # OpenResty
 curl -L https://github.com/opentracing-contrib/nginx-opentracing/archive/refs/tags/v0.19.0.tar.gz | tar xzf -
@@ -44,7 +44,7 @@ cd $HOME/openresty-1.19.9.1
 ./configure --with-compat --add-dynamic-module=$HOME/nginx-opentracing-0.19.0/opentracing
 make
 cd ..
-tar czf dist/ngx_http_opentracing_module.tar.gz -C openresty-1.19.9.1/build/nginx-1.19.9/objs ngx_http_opentracing_module.so
+tar czf dist/ngx_http_opentracing_module-0.19.0_openresty-1.19.9.1.tar.gz -C openresty-1.19.9.1/build/nginx-1.19.9/objs ngx_http_opentracing_module.so
 
 # Now copy dist/* to dist/ in the buildpack
 ```
