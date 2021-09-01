@@ -33,7 +33,7 @@ cd build
 cmake ..
 make
 cd ../..
-tar cf dist/libjaegertracing.tar --transform 's?.*/??g' jaeger-client-cpp-0.7.0/build/libjaegertracing.so*
+tar cf dist/libjaegertracing-0.7.0.tar --transform 's?.*/??g' jaeger-client-cpp-0.7.0/build/libjaegertracing.so*
 for FILE in $(find $HOME/.hunter/_Base/Cellar -name 'libyaml-cpp*'); do tar rf dist/libjaegertracing.tar --transform 's?.*/??g' "$FILE"; done
 gzip dist/libjaegertracing-0.7.0.tar
 
