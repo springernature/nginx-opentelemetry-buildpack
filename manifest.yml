@@ -71,15 +71,15 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
 - name: libjaegertracing
-  version: 0.7.0
-  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/libjaegertracing-0.7.0.tar.gz
-  sha256: be603c555d36ae2376f625193b360e92ff9b30dc090f627691799b6d1d9d0ba6
+  version: 0.8.0
+  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/libjaegertracing-0.8.0.tar.gz
+  sha256: 89455f4bfb5060c709dc4328a61df2cb120889b3ac362fb5a6145b7eb11a88b5
   cf_stacks:
   - cflinuxfs3
 - name: ngx_http_opentracing_module
-  version: 0.19.0
-  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/ngx_http_opentracing_module-0.19.0_openresty-1.19.9.1.tar.gz
-  sha256: a1971738ff883f1e46e734fb55463b670c8907c144f0b12c36bea54b4e7ad793
+  version: 0.21.0
+  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/ngx_http_opentracing_module-0.21.0_openresty-1.19.9.1.tar.gz
+  sha256: d55b1ff0c61d0f223d325f1755df7fc8310a4a5242def6fc3189b391f7df038c
   cf_stacks:
   - cflinuxfs3
 pre_package: scripts/build.sh
