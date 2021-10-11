@@ -73,7 +73,7 @@ dependencies:
 - name: libjaegertracing
   version: 0.8.0
   uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/libjaegertracing-0.8.0.tar.gz
-  sha256: 89455f4bfb5060c709dc4328a61df2cb120889b3ac362fb5a6145b7eb11a88b5
+  sha256: 3fe1f136e6935ed3545ee843669bd77b2b943d15f1dac73c92597759fe475e59
   cf_stacks:
   - cflinuxfs3
 - name: ngx_http_opentracing_module
