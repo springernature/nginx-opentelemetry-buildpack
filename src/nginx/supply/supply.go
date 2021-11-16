@@ -98,8 +98,8 @@ func (s *Supplier) Run() error {
 		}
 	}
 
-	if err := s.InstallOpenTracing(); err != nil {
-		s.Log.Error("Failed to install opentracing libs: %s", err.Error())
+	if err := s.InstallOpenTelemetry(); err != nil {
+		s.Log.Error("Failed to install open-telemetry libs: %s", err.Error())
 		return err
 	}
 
@@ -129,17 +129,6 @@ func (s *Supplier) WriteProfileD() error {
 		if err != nil {
 			return err
 		}
-	}
-
-	err := s.Stager.WriteProfileD(
-		"opentracing",
-		fmt.Sprintf(
-			"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH%s$DEPS_DIR/%s/opentracing/lib\n",
-			string(os.PathListSeparator),
-			s.Stager.DepsIdx(),
-		))
-	if err != nil {
-		return err
 	}
 
 	return s.Stager.WriteProfileD("nginx", fmt.Sprintf("export DEP_DIR=$DEPS_DIR/%s\nmkdir -p logs", s.Stager.DepsIdx()))
@@ -251,17 +240,9 @@ func (s *Supplier) InstallOpenResty() error {
 	return s.Stager.AddBinDependencyLink(filepath.Join(dir, "nginx", "sbin", "nginx"), "nginx")
 }
 
-func (s *Supplier) InstallOpenTracing() error {
-	openTracingLibDir := filepath.Join(s.Stager.DepDir(), "opentracing", "lib")
-	if err := s.Installer.InstallOnlyVersion("libopentracing", openTracingLibDir); err != nil {
-		return err
-	}
-	if err := s.Installer.InstallOnlyVersion("libjaegertracing", openTracingLibDir); err != nil {
-		return err
-	}
-
+func (s *Supplier) InstallOpenTelemetry() error {
 	nginxModulesDir := filepath.Join(s.Stager.DepDir(), "nginx", "modules")
-	if err := s.Installer.InstallOnlyVersion("ngx_http_opentracing_module", nginxModulesDir); err != nil {
+	if err := s.Installer.InstallOnlyVersion("otel_ngx_module", nginxModulesDir); err != nil {
 		return err
 	}
 
@@ -369,13 +350,8 @@ func (s *Supplier) validateNGINXConfSyntax() error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = nginxErr
 
-	openTracingLibDir := filepath.Join(s.Stager.DepDir(), "opentracing", "lib")
 	if s.Config.Dist == "openresty" {
-		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s;%s",
-				filepath.Join(s.Stager.DepDir(), "nginx", "luajit", "lib"),
-				openTracingLibDir))
-	} else {
-		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s", openTracingLibDir))
+		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s", filepath.Join(s.Stager.DepDir(), "nginx", "luajit", "lib")))
 	}
 	if err := s.Command.Run(cmd); err != nil {
 		_, _ = fmt.Fprint(os.Stderr, nginxErr.String())

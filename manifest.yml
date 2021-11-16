@@ -64,22 +64,10 @@ dependencies:
   - cflinuxfs3
   source: http://openresty.org/download/openresty-1.19.9.1.tar.gz
   source_sha256: 576ff4e546e3301ce474deef9345522b7ef3a9d172600c62057f182f3a68c1f6
-- name: libopentracing
-  version: 1.6.0
-  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/libopentracing-1.6.0.tar.gz
-  sha256: a8bedde9d369481cad75bc072633ccc271dbbef25a7972a3f7d08bbb2f92919f
-  cf_stacks:
-  - cflinuxfs3
-- name: libjaegertracing
-  version: 0.8.0
-  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/libjaegertracing-0.8.0.tar.gz
-  sha256: 3fe1f136e6935ed3545ee843669bd77b2b943d15f1dac73c92597759fe475e59
-  cf_stacks:
-  - cflinuxfs3
-- name: ngx_http_opentracing_module
-  version: 0.21.0
-  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/master/dist/ngx_http_opentracing_module-0.21.0_openresty-1.19.9.1.tar.gz
-  sha256: d55b1ff0c61d0f223d325f1755df7fc8310a4a5242def6fc3189b391f7df038c
+- name: otel_ngx_module
+  version: 1.0.1
+  uri: https://github.com/springernature/nginx-opentracing-buildpack/raw/opentelemetry/dist/otel_ngx_module_nginx1.19.1_30e872e.tar.gz
+  sha256: 5b6cf8b64101aa4e02c52ae17a5c5b7bb47c5df24c02e0ce93339833c6856da1
   cf_stacks:
   - cflinuxfs3
 pre_package: scripts/build.sh
