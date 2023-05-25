@@ -96,6 +96,12 @@ dependencies:
   - cflinuxfs4
   source: http://openresty.org/download/openresty-1.21.4.1.tar.gz
   source_sha256: 0c5093b64f7821e85065c99e5d4e6cc31820cfd7f37b9a0dec84209d87a2af99
+- name: otel_ngx_module
+  version: 1.0.1
+  uri: https://github.com/springernature/nginx-opentelemetry-buildpack/raw/master/dist/otel_ngx_module_nginx1.19.1_30e872e.tar.gz
+  sha256: 5b6cf8b64101aa4e02c52ae17a5c5b7bb47c5df24c02e0ce93339833c6856da1
+  cf_stacks:
+    - cflinuxfs3
 pre_package: scripts/build.sh
 include_files:
 - CHANGELOG

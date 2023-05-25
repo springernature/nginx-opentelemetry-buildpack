@@ -98,6 +98,11 @@ func (s *Supplier) Run() error {
 		}
 	}
 
+	if err := s.InstallOpenTelemetry(); err != nil {
+		s.Log.Error("Failed to install open-telemetry libs: %s", err.Error())
+		return err
+	}
+
 	if err := s.ValidateNginxConf(); err != nil {
 		s.Log.Error("Could not validate nginx.conf: %s", err.Error())
 		return err
@@ -233,6 +238,15 @@ func (s *Supplier) InstallOpenResty() error {
 	}
 
 	return s.Stager.AddBinDependencyLink(filepath.Join(dir, "nginx", "sbin", "nginx"), "nginx")
+}
+
+func (s *Supplier) InstallOpenTelemetry() error {
+	nginxModulesDir := filepath.Join(s.Stager.DepDir(), "nginx", "modules")
+	if err := s.Installer.InstallOnlyVersion("otel_ngx_module", nginxModulesDir); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *Supplier) validateNginxConfHasPort() error {
