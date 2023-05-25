@@ -11,7 +11,7 @@ This fork adds the [OpenTelemetry nginx plugin](https://github.com/open-telemetr
 The libraries are built on an Ubuntu 18.04 VM:
 
 ```
-sudo apt install cmake build-essential autoconf libtool libpcre++ libssl-dev zlib1g-dev clang libcurl4-openssl-dev
+sudo apt install cmake build-essential autoconf libtool libpcre++ libssl-dev zlib1g-dev clang libcurl4-openssl-dev git
 mkdir dist
 
 # Ubuntu 18.04 has cmake 3.10, which is too old to build some of the packages
