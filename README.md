@@ -53,7 +53,7 @@ cd benchmark
 mkdir build && cd build
 cmake -DBENCHMARK_ENABLE_TESTING=false -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DCMAKE_BUILD_TYPE=Release ..
 make
-sudo make install
+sudo make install 
 cd ../..
 
 # OpenTelemetry Library Dependency

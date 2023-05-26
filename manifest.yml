@@ -102,6 +102,12 @@ dependencies:
   sha256: 5b6cf8b64101aa4e02c52ae17a5c5b7bb47c5df24c02e0ce93339833c6856da1
   cf_stacks:
     - cflinuxfs3
+- name: otel_ngx_module
+  version: 1.0.3
+  uri: https://github.com/springernature/nginx-opentelemetry-buildpack/raw/master/dist/otel_ngx_module_nginx1.21.1_5c0cc9c.tar.gz
+  sha256: 298b2d23b897c49c1b7dc373c160b971b543c92fe7ce213d2a3eec68d1014ce6
+  cf_stacks:
+    - cflinuxfs4
 pre_package: scripts/build.sh
 include_files:
 - CHANGELOG
