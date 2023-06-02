@@ -105,7 +105,7 @@ dependencies:
 - name: otel_ngx_module
   version: 1.0.3
   uri: https://github.com/springernature/nginx-opentelemetry-buildpack/raw/fs4/dist/otel_ngx_module_nginx1.21.1_5c0cc9c.tar.gz
-  sha256: d2798adaeb927afac7ebea3bf5de813de0fcf7a7e31d783482fef83804c09ec7
+  sha256: 86adbeba159f3b2a182418c0648c3cc120f6ccbf014ec5808314efee9aab3421
   cf_stacks:
     - cflinuxfs4
 pre_package: scripts/build.sh
