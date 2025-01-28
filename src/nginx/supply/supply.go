@@ -331,9 +331,13 @@ func (s *Supplier) validateNGINXConfSyntax() error {
 	cmd.Dir = tmpConfDir
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = nginxErr
+
 	if s.Config.Dist == "openresty" {
-		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s", filepath.Join(s.Stager.DepDir(), "nginx", "luajit", "lib")))
+		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s:%s", filepath.Join(s.Stager.DepDir(), "nginx", "luajit", "lib"), localModulePath))
+	} else {
+		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s", localModulePath))
 	}
+
 	if err := s.Command.Run(cmd); err != nil {
 		_, _ = fmt.Fprint(os.Stderr, nginxErr.String())
 		return fmt.Errorf("nginx.conf contains syntax errors: %s", err.Error())
