@@ -325,6 +325,8 @@ func (s *Supplier) validateNGINXConfSyntax() error {
 		return err
 	}
 
+	s.Log.Info("nginx configuration - validated")
+
 	nginxErr := &bytes.Buffer{}
 
 	cmd = exec.Command(filepath.Join(s.Stager.DepDir(), "bin", "nginx"), "-t", "-c", nginxConfPath, "-p", tmpConfDir)
@@ -333,10 +335,14 @@ func (s *Supplier) validateNGINXConfSyntax() error {
 	cmd.Stderr = nginxErr
 
 	if s.Config.Dist == "openresty" {
+		s.Log.Info(fmt.Sprintf("openresty setting LD_LIBRARY_PATH to %s:%s", filepath.Join(s.Stager.DepDir(), "nginx", "luajit", "lib"), localModulePath))
 		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s:%s", filepath.Join(s.Stager.DepDir(), "nginx", "luajit", "lib"), localModulePath))
 	} else {
+		s.Log.Info(fmt.Sprintf("openresty setting LD_LIBRARY_PATH to %s", localModulePath))
 		cmd.Env = append(os.Environ(), fmt.Sprintf("LD_LIBRARY_PATH=%s", localModulePath))
 	}
+
+	s.Log.Info("nginx/openresty starting ")
 
 	if err := s.Command.Run(cmd); err != nil {
 		_, _ = fmt.Fprint(os.Stderr, nginxErr.String())
