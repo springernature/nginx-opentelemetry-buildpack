@@ -250,9 +250,13 @@ func (s *Supplier) validateNginxConfHasPort() error {
 	nginxConfPath := filepath.Join(tmpDir, "nginx.conf")
 
 	randString := randomString(16)
+
+	s.Log.Info(fmt.Sprintf("nginxConfPath = %s, randomPort = %s", nginxConfPath, randString))
+
 	cmd := exec.Command(filepath.Join(s.Stager.DepDir(), "bin", "varify"), "-buildpack-yml-path", "", nginxConfPath, "", "")
 	cmd.Dir = tmpDir
 	cmd.Env = append(os.Environ(), fmt.Sprintf("PORT=%s", randString))
+
 	if output, err := s.Command.RunWithOutput(cmd); err != nil {
 		return fmt.Errorf("varify command failed: %w\noutput: %s", err, string(output))
 	}

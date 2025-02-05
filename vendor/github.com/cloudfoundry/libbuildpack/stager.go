@@ -259,6 +259,7 @@ func (s *Stager) SetStagingEnvironment() error {
 func (s *Stager) SetLaunchEnvironment() error {
 	scriptContents := ""
 
+	s.log.Info("1")
 	for envVar, dir := range launchEnvVarDirs {
 		depsPaths, err := existingDepsDirs(s.depsDir, dir, depsDirEnvVar)
 		if err != nil {
@@ -271,44 +272,48 @@ func (s *Stager) SetLaunchEnvironment() error {
 		}
 	}
 
+	s.log.Info("2")
 	if err := os.MkdirAll(s.profileDir, 0755); err != nil {
 		return err
 	}
 
+	s.log.Info("3")
 	scriptLocation := filepath.Join(s.ProfileDir(), scriptName)
 	if err := writeToFile(strings.NewReader(scriptContents), scriptLocation, 0755); err != nil {
 		return err
 	}
 
+	s.log.Info("4")
 	profileDirs, err := existingDepsDirs(s.depsDir, "profile.d", s.depsDir)
 	if err != nil {
 		return err
 	}
-
+	s.log.Info("5")
 	for _, dir := range profileDirs {
 		sections := strings.Split(dir, string(filepath.Separator))
 		if len(sections) < 2 {
 			return errors.New("invalid dep dir")
 		}
-
+		s.log.Info("6")
 		depsIdx := sections[len(sections)-2]
 
 		files, err := ioutil.ReadDir(dir)
 		if err != nil {
 			return err
 		}
-
+		s.log.Info("7")
 		for _, file := range files {
 			if file.Mode().IsRegular() {
 				src := filepath.Join(dir, file.Name())
 				dest := filepath.Join(s.profileDir, depsIdx+"_"+file.Name())
-
+				s.log.Info("8")
 				if err := CopyFile(src, dest); err != nil {
 					return err
 				}
 			}
 		}
 	}
+	s.log.Info("9")
 
 	return nil
 }
